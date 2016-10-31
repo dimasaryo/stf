@@ -23,7 +23,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
       --create-home \
       --shell /usr/sbin/nologin \
       stf && \
-    sed -i'' 's@http://archive.ubuntu.com/ubuntu/@mirror://mirrors.ubuntu.com/mirrors.txt@' /etc/apt/sources.list && \
     apt-get update && \
     apt-get -y install wget python build-essential && \
     cd /tmp && \
