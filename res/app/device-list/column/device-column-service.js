@@ -128,7 +128,19 @@ module.exports = function DeviceColumnService($filter, gettext) {
   , network: TextCell({
       title: gettext('Network')
     , value: function(device) {
-        return device.phone ? device.phone.network : ''
+        if (!device.network) {
+          return ''
+        }
+
+        if (!device.network.connected) {
+          return ''
+        }
+
+        if (device.network.subtype) {
+          return (device.network.type + ' (' + device.network.subtype + ')').toUpperCase()
+        }
+
+        return (device.network.type || '').toUpperCase()
       }
     })
   , display: TextCell({
@@ -190,6 +202,12 @@ module.exports = function DeviceColumnService($filter, gettext) {
       title: gettext('Phone IMEI')
     , value: function(device) {
         return device.phone ? device.phone.imei : ''
+      }
+    })
+  , imsi: TextCell({
+      title: gettext('Phone IMSI')
+    , value: function(device) {
+        return device.phone ? device.phone.imsi : ''
       }
     })
   , iccid: TextCell({
@@ -571,6 +589,7 @@ function DeviceStatusCell(options) {
   , preparing: 'state-preparing btn-primary-outline btn-success-outline'
   , unauthorized: 'state-unauthorized btn-danger-outline'
   , offline: 'state-offline btn-warning-outline'
+  , automation: 'state-automation btn-info'
   }
 
   return _.defaults(options, {
